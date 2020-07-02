@@ -1,0 +1,81 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+install.packages("devtools")
+```
+
+
+```{r}
+devtools::install_github("codeclan/CodeClanData")
+```
+
+```{r}
+library(CodeClanData)
+```
+
+A data frame called beer
+
+```{r}
+data.frame(beer)
+```
+
+Finding the means of the beer attributes
+```{r}
+mean(beer$percent) 
+
+mean(beer$calories)
+#integer? Tried with L but haven't a notion why it's not working.
+
+mean(beer$carbohydrates) 
+
+```
+
+Allocating beer name to variables within vectors?
+
+```{r}
+names(percent) <- beer
+
+names(calories) <- beer
+
+names(carbohydrates) <- beer
+```
+
+
+Reorder beers according to top and bottom 3: (establish any similarities)
+a)percentage
+b)calories
+c)carbs
+```{r}
+(beer$percent, c(1, )
+```
+
+
+
+A matrix called temp
+
+```{r}
+matrix(temp)
+```
+
+
+#Analysis I would like to have done would be to find the average/mean temp for each month across each of the years.
+
+#Understand which years or seasons had higher or lower temperatures
+
+
+
+
+A list called game_of_thrones.
+
+```{r}
+list(game_of_thrones)
+```
+
+#Not sure what I would have done with this as not familiar with Game of Thrones other than count the difference in male to female characters. Also Matrix allude me completely.
+
+```{r}
+```
+
