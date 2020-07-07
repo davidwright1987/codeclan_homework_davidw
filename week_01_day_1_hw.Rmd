@@ -1,0 +1,125 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(readr)
+
+library(jsonlite)
+```
+
+1. Read in the state_income_data.csv file using the appropriate function.
+
+```{r}
+state_income_data <-read_csv("data/state_income_data.csv")
+state_income_data
+```
+
+2.How do you specify your own column names when using read_csv()?
+```{r}
+
+state_income_data <-read_csv("data/state_income_data.csv", col_names = "Letter", "US State" etc etc)
+```
+
+
+3. Read in the cars.csv file and use the col_types() function to ensure you load in:
+
+X1 as character
+mpg, cyl, disp, hp as double
+vs as logical
+
+```{r}
+read_csv("data/cars.csv", col_types = parse_logical)
+```
+
+```{r}
+
+```
+
+
+4. Read in the scotland.txt file using the appropriate function.
+```{r}
+
+scotland <- read_delim("data/scotland.txt", delim = ":")
+scotland
+
+```
+
+
+
+5. How do you read text into a one element character vector?
+
+No idea
+
+```{r}
+paste0(…, collapse = NULL)????
+```
+
+
+6. Read in the steam-200k-sample.csv file. Fix any problems you may encounter.
+
+```{r}
+read_csv("data/steam-200k-sample.csv", skip = 4)
+```
+
+
+7. Read in the historic_eu_payments.tsv file.
+
+```{r}
+eu_payments <- read_tsv("data/historic_eu_payments.tsv")
+```
+
+8. How do you read lines of text into a multi-element text vector?
+
+```{r}
+
+```
+
+9. Read in the JSON file from the following url: http://makemeanalyst.com/wp-content/uploads/2017/06/sample_json.txt
+
+```{r}
+read_file("http://makemeanalyst.com/wp-content/uploads/2017/06/sample_json.txt")
+```
+ 
+```{r}
+parse_json("http://makemeanalyst.com/wp-content/uploads/2017/06/sample_json.txt")
+```
+ 
+```{r}
+make_me_an_analyst_df <-fromJSON("http://makemeanalyst.com/wp-content/uploads/2017/06/sample_json.txt")
+```
+ 
+
+
+Extension
+
+A lot of Excel sheets you will encounter will contain more than one sheet. Try to write some code that reads in all the different sheets in the file green_bindle_consulting.xlsx.
+
+[Hint: you will need to write a for loop]
+
+```{r}
+library(openxlsx)
+library(readxl)
+```
+
+(Code from stack overflow but struggling to get tibble to work)
+
+```{r}
+read_all_excel_sheets <- read.xlsx("data/green_bindle_consulting.xlsx", tibble = FALSE) {}
+sheets <- readxl::excel_sheets("data/green_bindle_consulting.xlsx")
+    x <- lapply(sheets, function(X) readxl::read_excel("data/green_bindle_consulting.xlsx, sheet = X)
+    if(!tibble) x <- lapply(x, as.data.frame)
+    names(x) <- sheets
+}
+
+
+```
+
+```{r}
+my_sheets <- read_excel_allsheets("data/green_bindle_consulting.xlsx")
+```
+
+
+
+
