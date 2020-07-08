@@ -1,0 +1,78 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+2.Seed the wrestling database from the file wrestling.sql using the psql PostgreSQL command line interface.
+
+
+```{r}
+Sys.getenv("HOME")
+```
+
+```{r}
+
+home_location <- Sys.getenv("HOME")
+credentials_location <- paste0(home_location,"/credentials.R")
+source(credentials_location)
+```
+
+```{r}
+
+library(RPostgreSQL)
+
+```
+
+3. Create a connection to the local wrestling database from R.
+Pass the argument max.con = 2 to PostgreSQL() to make sure you don’t have too many simultaneous connections. We’ll be setting up a local connection and perhaps a remote connection, hence ‘2’.
+
+
+```{r}
+#my_db_connection <- dbConnect(drv = PostgreSQL(max.con = 2), user = postgresql_username, password = postgresql_password, dbname = 'wrestling', host = 'localhost')
+```
+
+Remember to add a separate ‘disconnect’ block of code. We’ll write queries between the ‘connect’ and ‘disconnect’ block
+
+```{r}
+#dbDisconnect(conn = my_db_connection)
+```
+
+
+
+4. Using the R connection you just created, write and execute a SQL query to return all the wrestlers in the wrestlers table.
+
+```{r}
+View(wrestlers)
+```
+
+5. Explore the columns stored in the table. State which data type you think each column stores.
+```{r}
+Born - Character
+Name - Character
+Gender - Character (Logical)
+Win Percent - Double
+Total Matches - integer
+
+
+```
+
+```{r}
+dbDisconnect(conn = my_db_connection)
+```
+
+
+1.2 Remote PostgreSQL Connections
+
+Here are the details of the remote PostgreSQL database we wish to connect to:
+
+Store the credentials above in appropriately named variables in your credentials.R file in your home directory.
+
+```{r}
+
+```
+
+Use your credentials to establish a connection from R to the remote database.
+```{r}
+
+```
+

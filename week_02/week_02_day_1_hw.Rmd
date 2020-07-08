@@ -1,4 +1,4 @@
----
+         ---
 title: "R Notebook"
 output: html_notebook
 ---
@@ -41,8 +41,8 @@ read_csv("data/cars.csv", col_types = parse_logical)
 4. Read in the scotland.txt file using the appropriate function.
 ```{r}
 
-scotland <- read_delim("data/scotland.txt", delim = ":")
-scotland
+scotland <- read_delim("data/scotland.txt", delim = ";", skip = 1)
+
 
 ```
 
@@ -73,6 +73,7 @@ eu_payments <- read_tsv("data/historic_eu_payments.tsv")
 8. How do you read lines of text into a multi-element text vector?
 
 ```{r}
+surnames <-read_lines("Data/surname.txt")
 
 ```
 
