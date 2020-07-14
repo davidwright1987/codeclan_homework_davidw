@@ -14,6 +14,10 @@ db_connect <- dbConnect(drv = PostgreSQL(), user = postgresql_username, password
 
 rm(postgresql_username, postgresql_password)
 ```
+```{sql connection=db_connect}
+
+```
+
 
 
 ```{sql connection=db_connect}
@@ -61,16 +65,17 @@ WHERE country = 'Portugal' OR country = 'Spain'
 5. Count the number of pay_details records lacking a local_account_no
 ```{sql connection=db_connect}
 SELECT
-  COUNT (*)
-FROM employees
-WHERE pay_detail_id IS NOT NULL
+  COUNT (id)
+FROM pay_details
+WHERE local_account_no IS NULL
 ```
 
 6. Are there any pay_details record lacking both a local_account_no and iban number?
 ```{sql connection=db_connect}
-SELECT *
+SELECT 
+  COUNT (id)
 FROM pay_details
-WHERE (local_account_no = NULL) AND (iban = NULL)
+WHERE local_account_no IS NULL AND iban IS NULL
 ```
 
 
@@ -80,7 +85,7 @@ SELECT
   last_name,
   first_name
 FROM employees
-ORDER BY last_name ASC NULLS LAST
+ORDER BY LOWER(last_name) ASC NULLS LAST
 ```
 
 
@@ -91,7 +96,7 @@ SELECT
   last_name, 
   country
 FROM employees
-ORDER BY country ASC NULLS LAST, last_name ASC NULLS LAST
+ORDER BY country, LOWER(last_name) ASC NULLS LAST
 ```
 
 
@@ -114,6 +119,8 @@ SELECT
   salary
 FROM employees
 WHERE country = 'Hungary'
+ORDER BY salary ASC NULLS LAST
+LIMIT 1
 ```
 
 11. How many employees have a first name beginning with ‘F’?
@@ -134,21 +141,20 @@ WHERE email LIKE '%yahoo%'
 13. Count the number of pension enrolled employees not based in either France or Germany.
 ```{sql connection=db_connect}
 SELECT
-  COUNT (id) AS pen_enrol_not_fra_ger
+  COUNT (id)
 FROM employees
-WHERE pension_enrol IS NOT NULL AND country IS NOT 'France'
+WHERE pension_enrol IS TRUE AND country NOT IN ('France', 'Germany')
 
 
-(country IS NOT 'France' AND country IS NOT 'Germany')
 ```
 
 14. Breakdown the numbers of employees enrolled, not enrolled and whose enrollment status is unknown in the corporation pension scheme.
 ```{sql connection=db_connect}
 SELECT
-  COUNT (employees) AS enrolled, not_enrolled, enrolled_unknown
+  pension_enrol,
+  COUNT (id)
 FROM employees
-WHERE pension_enrol IS NOT NULL = 'enrolled_unknown'
-GROUP BY enrolled, not_enrolled, enrolled_unknown
+GROUP BY pension_enrol
 ```
 
 15. What is the maximum salary among employees in the Engineering department who work 1.0 full-time equivalent hours?
@@ -172,6 +178,6 @@ GROUP BY department
 
 
 ```{r}
-#dbDisconnect(db_connect)
+dbDisconnect(db_connect)
 ```
 

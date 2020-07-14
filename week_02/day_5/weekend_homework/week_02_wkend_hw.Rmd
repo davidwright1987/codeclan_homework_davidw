@@ -1,0 +1,51 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(RPostgreSQL)
+
+home_location <- Sys.getenv("HOME")
+credentials_location <- paste0(home_location,"/credentials.R")
+source(credentials_location)
+
+db_connect <- dbConnect(drv = PostgreSQL(), user = postgresql_username, password = postgresql_password, dbname = "acme_employees", host = "localhost")
+```
+
+```{r}
+dbListTables(db_connect)
+```
+
+```{r}
+dbGetQuery()
+```
+
+
+```{sql connection=db_connect, output.var = 'data2'}
+SELECT *
+FROM employees
+```
+
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+```{sql connection=db_connect}
+
+```
+
+
+```{r}
+#dbDisconnect(db_connect)
+```
+
