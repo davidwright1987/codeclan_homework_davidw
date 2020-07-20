@@ -71,7 +71,8 @@ count(codeclan_tweets, vars = favorite_count, wt_var = media_type)
 6. Find the mean number of characters that a CodeClan tweet contains.
 
 ```{r}
-nchar("tweet")
+codeclan_tweets %>% 
+  summarise(avg_tweet_length = mean(display_text_width))
 ```
 
 
