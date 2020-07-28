@@ -1,0 +1,106 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(CodeClanData)
+```
+
+```{r}
+backpack
+```
+
+
+
+```{r}
+ggplot(backpack) +
+  aes(x = backpack_weight, fill = sex) +
+  geom_bar() +
+  labs(
+    x = "\nBackpack Weight",
+    y = "Number of Students" ,
+    title = "Weight of school bag between sexes"
+  )
+```
+The trend appears that more females are carrying a heavier weight that their male counterparts as well as doing so more frequently
+
+```{r}
+ggplot(backpack) +
+  geom_histogram(aes(x = backpack_weight), col = "white") +
+  facet_wrap(~ sex, nrow = 2)
+```
+
+
+
+
+
+
+Body weight vs backpack weight
+```{r}
+ggplot(backpack) +
+  aes(x = body_weight, y = backpack_weight, colour = sex) +
+  geom_point()
+```
+Despite much lower body weight females are carrying the same weight as the males. 
+
+
+
+Students reporting back problems
+```{r}
+ggplot(backpack) + 
+  aes(x = back_problems, fill = sex) +
+  geom_bar() + 
+  xlab("Back Problems") +
+  coord_polar("y") +
+  facet_wrap(~ sex, ncol = 2)
+```
+
+```{r}
+
+```
+
+
+```{r}
+ggplot(backpack) + 
+  aes(x = sex, y = back_problems, fill = sex) +
+  geom_col()
+```
+
+
+```{r}
+ggplot(backpack) +
+  aes(x = backpack_weight, y = body_weight, colour = sex) +
+  geom_point() +
+  facet_wrap(sex ~ back_problems, ncol = 2, nrow = 2, scales = "free")
+```
+
+
+```{r}
+ggplot(backpack) +
+  aes(x = year, fill = back_problems) +
+  geom_bar() +
+  scale_x_continuous(breaks = 1:6)
+  scale_fill_brewer()
+```
+
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
