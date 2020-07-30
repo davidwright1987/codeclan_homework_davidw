@@ -1751,109 +1751,11 @@ summary {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KGdncGxvdDIpXG5saWJyYXJ5KENvZGVDbGFuRGF0YSlcbmBgYCJ9 -->
-<pre class="r"><code>library(tidyverse)
-library(ggplot2)
-library(CodeClanData)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYmFja3BhY2tcbmBgYCJ9 -->
-<pre class="r"><code>backpack</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGJhY2twYWNrKSArXG4gIGFlcyh4ID0gYmFja3BhY2tfd2VpZ2h0LCBmaWxsID0gc2V4KSArXG4gIGdlb21fYmFyKCkgK1xuICBsYWJzKFxuICAgIHggPSBcIlxcbkJhY2twYWNrIFdlaWdodFwiLFxuICAgIHkgPSBcIk51bWJlciBvZiBTdHVkZW50c1wiICxcbiAgICB0aXRsZSA9IFwiV2VpZ2h0IG9mIHNjaG9vbCBiYWcgYmV0d2VlbiBzZXhlc1wiXG4gIClcbmBgYCJ9 -->
-<pre class="r"><code>ggplot(backpack) +
-  aes(x = backpack_weight, fill = sex) +
-  geom_bar() +
-  labs(
-    x = &quot;\nBackpack Weight&quot;,
-    y = &quot;Number of Students&quot; ,
-    title = &quot;Weight of school bag between sexes&quot;
-  )</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>The trend appears that more females are carrying a heavier weight that their male counterparts as well as doing so more frequently</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGJhY2twYWNrKSArXG4gIGdlb21faGlzdG9ncmFtKGFlcyh4ID0gYmFja3BhY2tfd2VpZ2h0KSwgY29sID0gXCJ3aGl0ZVwiKSArXG4gIGZhY2V0X3dyYXAofiBzZXgsIG5yb3cgPSAyKVxuYGBgIn0= -->
-<pre class="r"><code>ggplot(backpack) +
-  geom_histogram(aes(x = backpack_weight), col = &quot;white&quot;) +
-  facet_wrap(~ sex, nrow = 2)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Body weight vs backpack weight</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGJhY2twYWNrKSArXG4gIGFlcyh4ID0gYm9keV93ZWlnaHQsIHkgPSBiYWNrcGFja193ZWlnaHQsIGNvbG91ciA9IHNleCkgK1xuICBnZW9tX3BvaW50KClcbmBgYCJ9 -->
-<pre class="r"><code>ggplot(backpack) +
-  aes(x = body_weight, y = backpack_weight, colour = sex) +
-  geom_point()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Despite much lower body weight females are carrying the same weight as the males.</p>
-<p>Students reporting back problems</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGJhY2twYWNrKSArIFxuICBhZXMoeCA9IGJhY2tfcHJvYmxlbXMsIGZpbGwgPSBzZXgpICtcbiAgZ2VvbV9iYXIoKSArIFxuICB4bGFiKFwiQmFjayBQcm9ibGVtc1wiKSArXG4gIGNvb3JkX3BvbGFyKFwieVwiKSArXG4gIGZhY2V0X3dyYXAofiBzZXgsIG5jb2wgPSAyKVxuYGBgIn0= -->
-<pre class="r"><code>ggplot(backpack) + 
-  aes(x = back_problems, fill = sex) +
-  geom_bar() + 
-  xlab(&quot;Back Problems&quot;) +
-  coord_polar(&quot;y&quot;) +
-  facet_wrap(~ sex, ncol = 2)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGJhY2twYWNrKSArIFxuICBhZXMoeCA9IHNleCwgeSA9IGJhY2tfcHJvYmxlbXMsIGZpbGwgPSBzZXgpICtcbiAgZ2VvbV9jb2woKVxuYGBgIn0= -->
-<pre class="r"><code>ggplot(backpack) + 
-  aes(x = sex, y = back_problems, fill = sex) +
-  geom_col()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGJhY2twYWNrKSArXG4gIGFlcyh4ID0gYmFja3BhY2tfd2VpZ2h0LCB5ID0gYm9keV93ZWlnaHQsIGNvbG91ciA9IHNleCkgK1xuICBnZW9tX3BvaW50KCkgK1xuICBmYWNldF93cmFwKHNleCB+IGJhY2tfcHJvYmxlbXMsIG5jb2wgPSAyLCBucm93ID0gMiwgc2NhbGVzID0gXCJmcmVlXCIpXG5gYGAifQ== -->
-<pre class="r"><code>ggplot(backpack) +
-  aes(x = backpack_weight, y = body_weight, colour = sex) +
-  geom_point() +
-  facet_wrap(sex ~ back_problems, ncol = 2, nrow = 2, scales = &quot;free&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2dwbG90KGJhY2twYWNrKSArXG4gIGFlcyh4ID0geWVhciwgZmlsbCA9IGJhY2tfcHJvYmxlbXMsIGNvbG91ciA9KSArXG4gIGdlb21fYmFyKCkgK1xuICBzY2FsZV94X2NvbnRpbnVvdXMoYnJlYWtzID0gMTo2KVxuICBzY2FsZV9maWxsX2JyZXdlcigpXG5gYGAifQ== -->
-<pre class="r"><code>ggplot(backpack) +
-  aes(x = year, fill = back_problems, colour =) +
-  geom_bar() +
-  scale_x_continuous(breaks = 1:6)
-  scale_fill_brewer()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKLS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKYGBge3J9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGdncGxvdDIpCmxpYnJhcnkoQ29kZUNsYW5EYXRhKQpgYGAKCmBgYHtyfQpiYWNrcGFjawpgYGAKCgoKYGBge3J9CmdncGxvdChiYWNrcGFjaykgKwogIGFlcyh4ID0gYmFja3BhY2tfd2VpZ2h0LCBmaWxsID0gc2V4KSArCiAgZ2VvbV9iYXIoKSArCiAgbGFicygKICAgIHggPSAiXG5CYWNrcGFjayBXZWlnaHQiLAogICAgeSA9ICJOdW1iZXIgb2YgU3R1ZGVudHMiICwKICAgIHRpdGxlID0gIldlaWdodCBvZiBzY2hvb2wgYmFnIGJldHdlZW4gc2V4ZXMiCiAgKQpgYGAKVGhlIHRyZW5kIGFwcGVhcnMgdGhhdCBtb3JlIGZlbWFsZXMgYXJlIGNhcnJ5aW5nIGEgaGVhdmllciB3ZWlnaHQgdGhhdCB0aGVpciBtYWxlIGNvdW50ZXJwYXJ0cyBhcyB3ZWxsIGFzIGRvaW5nIHNvIG1vcmUgZnJlcXVlbnRseQoKYGBge3J9CmdncGxvdChiYWNrcGFjaykgKwogIGdlb21faGlzdG9ncmFtKGFlcyh4ID0gYmFja3BhY2tfd2VpZ2h0KSwgY29sID0gIndoaXRlIikgKwogIGZhY2V0X3dyYXAofiBzZXgsIG5yb3cgPSAyKQpgYGAKCgoKCgoKQm9keSB3ZWlnaHQgdnMgYmFja3BhY2sgd2VpZ2h0CmBgYHtyfQpnZ3Bsb3QoYmFja3BhY2spICsKICBhZXMoeCA9IGJvZHlfd2VpZ2h0LCB5ID0gYmFja3BhY2tfd2VpZ2h0LCBjb2xvdXIgPSBzZXgpICsKICBnZW9tX3BvaW50KCkKYGBgCkRlc3BpdGUgbXVjaCBsb3dlciBib2R5IHdlaWdodCBmZW1hbGVzIGFyZSBjYXJyeWluZyB0aGUgc2FtZSB3ZWlnaHQgYXMgdGhlIG1hbGVzLiAKCgoKU3R1ZGVudHMgcmVwb3J0aW5nIGJhY2sgcHJvYmxlbXMKYGBge3J9CmdncGxvdChiYWNrcGFjaykgKyAKICBhZXMoeCA9IGJhY2tfcHJvYmxlbXMsIGZpbGwgPSBzZXgpICsKICBnZW9tX2JhcigpICsgCiAgeGxhYigiQmFjayBQcm9ibGVtcyIpICsKICBjb29yZF9wb2xhcigieSIpICsKICBmYWNldF93cmFwKH4gc2V4LCBuY29sID0gMikKYGBgCgpgYGB7cn0KCmBgYAoKCmBgYHtyfQpnZ3Bsb3QoYmFja3BhY2spICsgCiAgYWVzKHggPSBzZXgsIHkgPSBiYWNrX3Byb2JsZW1zLCBmaWxsID0gc2V4KSArCiAgZ2VvbV9jb2woKQpgYGAKCgpgYGB7cn0KZ2dwbG90KGJhY2twYWNrKSArCiAgYWVzKHggPSBiYWNrcGFja193ZWlnaHQsIHkgPSBib2R5X3dlaWdodCwgY29sb3VyID0gc2V4KSArCiAgZ2VvbV9wb2ludCgpICsKICBmYWNldF93cmFwKHNleCB+IGJhY2tfcHJvYmxlbXMsIG5jb2wgPSAyLCBucm93ID0gMiwgc2NhbGVzID0gImZyZWUiKQpgYGAKCgpgYGB7cn0KZ2dwbG90KGJhY2twYWNrKSArCiAgYWVzKHggPSB5ZWFyLCBmaWxsID0gYmFja19wcm9ibGVtcywgY29sb3VyID0pICsKICBnZW9tX2JhcigpICsKICBzY2FsZV94X2NvbnRpbnVvdXMoYnJlYWtzID0gMTo2KQogIHNjYWxlX2ZpbGxfYnJld2VyKCkKYGBgCgoKYGBge3J9CgpgYGAKCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKYGBge3J9CgpgYGAKCg==</div>
 
 
 
@@ -1900,7 +1802,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("week_05_day_01_hw.Rmd");
+  window.initializeSourceEmbed("week_05_day_02_hw:lab.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
