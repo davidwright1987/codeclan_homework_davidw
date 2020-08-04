@@ -1,0 +1,329 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(prob)
+library(tidyverse)
+```
+
+
+
+```{r}
+s_two_dice <- rolldie(2)
+nrow(s_two_dice)
+s_sum_equals_seven <- s_two_dice %>%
+  filter(X1 + X2 == 7)
+s_two_dice <- s_two_dice %>%
+  mutate(total = X1 + X2)
+```
+
+
+```{r}
+s_two_dice <- rolldie(2)
+
+#get the total number of outcomes
+size_s <- nrow(s_two_dice)
+```
+
+```{r}
+#set the criteria I am interested in calculating the prob of:
+total_seven <-s_two_dice %>% 
+  filter(X1 + X2 == 7)
+#get how many outcomes fir my criteria
+size_seven <- nrow(total_seven)
+```
+
+```{r}
+prob_total_seven <- size_seven / size_s
+```
+
+The prob of rolling 2 die and having it add up to 7 is 0.1666667
+
+
+
+```{r}
+s_die <- rolldie(1)
+s_coin <- tosscoin(1)
+
+s_total <- merge(s_die, s_coin)
+s_total
+
+
+```
+
+
+
+# Permutations
+
+```{r}
+install.packages("gtools")
+library(gtools)
+```
+
+```{r}
+employees <- c("Alice", "Bob", "Carole", "David", "Elaine", "Fred", "Ghislaine", "Hua", "Inigo", "Hugo")
+```
+
+
+```{r}
+senior_staff <- as_tibble(
+  permutations(n = 10,
+               r = 3,
+               v = employees,
+               repeats.allowed = FALSE)
+)
+```
+
+```{r}
+senior_staff <- senior_staff %>% 
+  rename(CEO = V1,
+         CTO = V2,
+         COO = V3)
+
+senior_staff
+```
+
+What is the probability of Alice being CEO and Bob being CTO?
+
+```{r}
+alice_and_bob <- senior_staff %>% 
+  filter(CEO == "Alice", CTO == "Bob")
+alice_and_bob
+```
+
+```{r}
+prob_alice_and_bob <- nrow(alice_and_bob) / nrow(senior_staff)
+prob_alice_and_bob
+```
+
+
+#TASK
+```{r}
+number_plates <- c("A", "B", "C", "D", "E")
+```
+
+```{r}
+
+number_plates <- c("A", "B", "C", "D", "E")
+
+no_repeats <- as_tibble(
+  permutations(n = 5,
+               r = 3,
+               v = number_plates,
+               repeats.allowed = FALSE))
+no_repeats
+```
+
+```{r}
+number_plates <- c("A", "B", "C", "D", "E")
+
+repeats <- as_tibble(
+  permutations(n = 5,
+               r = 3,
+               v = number_plates,
+               repeats.allowed = TRUE))
+
+repeats
+```
+
+
+# Combinations
+
+card draws in R
+
+```{r}
+card_draws <- choose(52, 5)
+card_draws
+```
+Colours 
+```{r}
+colours <- c("red", "blue", "yellow")
+
+three_colour_permutations <- permutations(n = 3, 
+                                          r = 3, 
+                                          v = colours,
+                                          repeats.allowed = FALSE)
+```
+
+```{r}
+three_colour_permutations <- combinations(n = 3,
+                                          r = 3,
+                                          v = colours)
+three_colour_permutations
+```
+
+
+#TASK
+```{r}
+flavours <- c("vanilla", "chocolate", "raspberry", "strawberry", "pistachio") 
+
+diff_colour <- combinations(n = 5,
+                            r = 3,
+                            v = flavours,
+                            repeats.allowed = FALSE)
+diff_colour
+```
+
+```{r}
+flavours <- c("vanilla", "chocolate", "raspberry", "strawberry", "pistachio") 
+
+diff_colour <- combinations(n = 5,
+                            r = 3,
+                            v = flavours,
+                            repeats.allowed = TRUE)
+diff_colour
+```
+
+```{r}
+numbers <- choose(50,6)
+numbers
+
+
+```
+
+```{r}
+
+
+ten_tickets <- (10/numbers)
+ten_tickets
+```
+
+# Complement
+
+```{r}
+s_four_coins <-
+tosscoin(4) %>% 
+  mutate(
+    number_of_heads = as.numeric(toss1 == "H") +
+      as.numeric(toss2 == "H") +
+      as.numeric(toss3 == "H") +
+      as.numeric(toss4 == "H")
+  ) %>% 
+  filter(number_of_heads >= 2)
+
+```
+
+```{r}
+11/16
+```
+
+
+```{r}
+15/16
+```
+
+
+Prob of tossing at least one head and one tail
+```{r}
+tosscoin(4) %>% 
+  mutate(
+    number_of_heads = as.numeric(toss1 == "H") +
+      as.numeric(toss2 == "H") +
+      as.numeric(toss3 == "H") +
+      as.numeric(toss4 == "H"),
+    number_of_tails = as.numeric(toss1 == "T") +
+      as.numeric(toss2 == "T") +
+      as.numeric(toss3 == "T") +
+      as.numeric(toss4 == "T")
+) %>% 
+  filter(number_of_heads >= 1 & number_of_tails >= 1)
+
+```
+
+```{r}
+14/16
+```
+
+Union
+
+Probability that first die is even and second die is 5?
+
+```{r}
+rolldie(2) %>% 
+  filter(X1 %% 2 == 0 | X2 == 5)
+```
+result/rolldie(2)
+```{r}
+21/36
+```
+
+Task - 10 mins
+Calculate probabilities for each event below:
+first_die_even
+second_die_5
+first_die_even AND second_die_5
+Then use these probabilities in the expression from above
+prob(A∪B)=prob(A)+prob(B)−prob(A∩B)
+and check you get the same probability for prob(first_die_even OR second_die_5)
+prob(first_die_even OR second_die_5) as we obtained from the last block of code. (
+
+```{r}
+rolldie(2) %>% 
+  filter(X1 %% 2 == 0)
+
+18/36
+  
+```
+
+```{r}
+rolldie(2) %>% 
+  filter(X2 == 5)
+6/36
+
+```
+
+
+```{r}
+rolldie(2) %>% 
+  filter(X1 %% 2 == 0 & X2 == 5)
+
+3/36
+```
+
+```{r}
+0.5 + 0.167 - 0.083
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

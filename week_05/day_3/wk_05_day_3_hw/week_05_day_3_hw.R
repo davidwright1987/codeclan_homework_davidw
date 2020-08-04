@@ -3,6 +3,7 @@ library(tidyverse)
 library(CodeClanData)
 library(shinythemes)
 
+
 all_teams <- unique(olympics_overall_medals$team)
 
 # UI section 
@@ -14,9 +15,6 @@ ui <- fluidPage(
         
         tabPanel("Olympic Medal Table"),
     
-            sidebarLayout(
-        
-            sidebarPanel(
             
             radioButtons("season",
                          "Summer or Winter Olympics?",
@@ -30,8 +28,12 @@ ui <- fluidPage(
         ),
         
         mainPanel(
+            column(6,
             plotOutput("medal_plot")
-            
+            ),
+            column(6
+            plot       
+                   )
         )
     ),
     tabPanel("Website",

@@ -1,0 +1,229 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(prob)
+library(gtools)
+library(tidyverse)
+```
+
+
+Titanic Exercise
+```{r}
+titanic_tibble <- tibble(
+  passenger = c(488, 812),
+  crew = c(215, 703), 
+)
+
+titanic_tibble <- titanic_tibble %>%
+    mutate(total_deaths = rowSums(.), 
+           status = c("survived", "died")) %>%
+  select(status, passenger, crew, total_deaths )
+
+titanic_tibble 
+```
+
+```{r}
+488 + 812
+
+215 + 703
+```
+You will need to:
+
+Calculate probabilities prob( survived ∩ crew ) and prob( survived ∩ passenger ).
+Use these to calculate conditional probabilities prob( survived ∣ crew ) and prob( survived ∣ passenger ).
+
+```{r}
+#Passenger Surviving
+488/703
+
+#Crew Surviving
+215/703
+
+
+```
+
+Use the conditional probabilities to say whether crew or passengers were more likely to have survived the disaster.
+
+Feel free to do this with pen and paper, if you prefer!
+```{r}
+488
+```
+
+
+
+
+#Probability Quiz
+
+1. If I roll a six-sided dice once, what is the probability of getting a number less than 5?
+
+```{r}
+4/6
+```
+
+2. How many outcomes are there in the sample space of an experiment in which we toss three dice?
+
+```{r}
+three_die <- rolldie(3)
+
+three_dice_outcomes <-nrow(three_die)
+
+three_dice_outcomes
+```
+3. In an experiment where we roll four dice:
+
+how many outcomes are in the event total_equals_5_6_7 (i.e. the total of the four dice equals 5, 6 or 7)?
+what is the probability of this event?
+what assumptions do we apply in answering part ii?
+
+```{r}
+four_die <-rolldie(4)
+
+total_equals_5_6_7 <- four_die %>% 
+  filter(sum(X1 + X2 + X3 + X4) == 5) %>% 
+  filter(sum(X1 + X2 + X3 + X4) == 6) %>%  
+  filter(sum(X1 + X2 + X3 + X4) == 7)
+
+total_equals_5_6_7
+```
+
+```{r}
+four_die <-rolldie(4)
+
+total_equals_5_6_7 <- four_die %>% 
+  mutate(total_5 == 5, as.logical = TRUE) %>% 
+  mutate(total_6 == 6, as.logical = TRUE) %>%
+  mutate(total_7 == 7, as.logical = TRUE) %>%
+  dplyr::filter(rowSums(. == 5)) +
+  dplyr::filter(rowSums(. == 6)) + 
+  dplyr::filter(rowSums(. == 7))
+total_equals_5_6_7
+  #as.logical argument?
+```
+
+
+```{r}
+4/1296
+
+```
+
+
+4. Five chairs are placed in a row in a room, along with five people of differing height. The people sit down randomly on the chairs. What is the probability that they sit in order of decreasing height, left to right?
+```{r}
+1/(5 x 4 x 3 x 2 x 1)
+
+
+```
+
+5. I roll six dice:
+
+what is the probability I see the numbers 6, 5, 4, 3, 2 and 1 in order on the dice, left to right?
+what is the probability I see one each of the numbers 6, 5, 4, 3, 2 and 1 on the dice regardless of order?
+[Hint have a look at the isin() function in the prob package. For example, to filter all rows containing 6, 1, 2 in that order, you could use isin(., c(6, 1, 2), ordered = TRUE)]
+
+```{r}
+dice_roll <- c(6, 5, 4, 3, 2, 1)
+
+isin(dice_roll, c(6, 5, 4, 3, 2, 1), ordered = TRUE)
+```
+
+
+7. Eight patients: Alice, Bob, Carmen, Dinesh, Ella, Fergus, Gianna and Henry are waiting to see a doctor, but only five appointment slots are left today.
+
+In how many different orders can the doctor see patients today?
+Hint
+permutations() returns a matrix, but it’s better to convert it to a tibble with as_tibble(). You can then set column names etc.]
+
+6,720
+
+What is the probability of Gianna and Danesh both being seen today?
+Hint
+Filter using isin()
+
+```{r}
+patients <- ("Alice", "Bob", "Carmen", "Dinesh", "Ella", "Fergus", "Gianna", "Henry")
+patients
+
+isin(patients, c(Gianna, Dinesh), ordered = FALSE)
+```
+
+
+What is the probability of Gianna being seen before Dinesh today?
+Hint
+Think about the ordered = argument of isin()
+```{r}
+
+```
+
+
+
+(harder) Carmen and Henry have now been triaged as high priority and will be seen in the first two available slots, although their order hasn’t yet been determined. In how many different orders can the patients now be seen?
+Hint
+Think of this as a two-step experiment: (1) choose order of high priority patients, (2) choose order of remaining patients. Get separate tibbles for steps (1) and (2) and then merge() them (make sure the column names are all distinct however or merge() will try to join on any repeated column names - not what we want).]
+```{r}
+3/6
+
+#120
+```
+
+8. If order is not significant, how many ways are there to select a 5 student quiz team from a group of 8 students?
+
+```{r}
+6720
+```
+
+
+9. (harder) How would your answer for question 8 change if a team captain had to be selected for each team?
+
+```{r}
+840
+```
+
+10. The following data from a sample of 120 families shows the record of university attendance by mothers and their eldest sons.
+
+in 32 families, both the mother and son attended university;
+in 31 families, neither the mother nor the son attended university
+in 22 families, the mother attended university while the son did not
+in 35 families, the son attended university while the mother did not.
+Arrange the data above in a convenient dataframe and answer the following questions:
+
+What is the probability that a son attended university given that his mother attended university?
+```{r}
+32/120
+```
+
+
+What is the probability that a son attended university given that his mother did not attend university?
+```{r}
+35/120
+```
+
+Is attending university by the son independent of whether his mother attended university?
+Hint - code to set up dataframe - try yourself first though!
+```{r}
+
+```
+
+
+```{r}
+uni <- data.frame(
+  mother_yes = c(32, 22), 
+  mother_no = c(35, 31)
+)
+uni <- cbind(uni, rowSums(uni))
+uni <- rbind(uni, colSums(uni))
+colnames(uni) <- c("mother_yes", "mother_no", "sum")
+rownames(uni) <- c("son_yes", "son_no", "sum")
+
+uni
+```
+```{r}
+
+```
+
+
+
+
+
