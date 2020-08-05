@@ -1,0 +1,115 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(prob)
+library(tidyverse)
+library(janitor)
+```
+
+
+```{r}
+reviews <-read_csv("20190928-items.csv")
+
+glimpse(reviews)
+head(reviews)
+```
+
+
+```{r}
+clean_names(reviews)
+```
+
+```{r}
+reviews_table <- 
+```
+
+
+```{r}
+ggplot(reviews) +
+  aes(x = brand) +
+  geom_bar()
+```
+
+```{r}
+samsung_mean <- reviews %>% 
+  group_by(brand) %>%
+  summarise(mean(totalReviews))
+samsung_mean
+```
+# Get Mode function
+```{r}
+getMode <- function(data){
+  tabled_data <- table(data)
+  table_names <- names(tabled_data)
+  return( table_names[tabled_data == max(tabled_data)] )
+}
+```
+
+
+```{r}
+reviews %>%
+  summarise(
+    mean_reviews = mean(totalReviews),
+    median_reviews = median(totalReviews),
+    mode_reviews = getMode(totalReviews))
+```
+
+
+```{r}
+reviews %>% 
+  group_by(brand) %>% 
+  summarise(
+    sd = sd(totalReviews)
+  )
+```
+
+
+```{r}
+install.packages("MASS")
+library(MASS)
+```
+
+```{r}
+fitdistr(totalReviews)
+```
+
+```{r}
+samsung_reviews <- table(reviews$brand)
+samsung_reviewsß
+```
+
+
+```{r}
+
+reviews %>% 
+ggplot() +
+  aes(x = Samsung, y = totalReviews) +
+  geom_histogram()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
