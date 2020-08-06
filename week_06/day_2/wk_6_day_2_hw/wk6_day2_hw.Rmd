@@ -78,7 +78,7 @@ fitdistr(totalReviews)
 
 ```{r}
 samsung_reviews <- table(reviews$brand)
-samsung_reviewsß
+samsung_reviews
 ```
 
 
