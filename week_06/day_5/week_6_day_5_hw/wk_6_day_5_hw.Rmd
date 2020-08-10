@@ -1,0 +1,106 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+data(msleep)
+```
+
+```{r}
+head(msleep)
+names(msleep)
+view(msleep)
+```
+
+```{r}
+msleep %>%
+  ggplot(aes(x = sleep_total)) +
+  geom_histogram(col = "white", bins = 25)
+```
+Jabberwockies sleep for around 7 hours a night, on average. Perform an appropriate statistical test to determine whether the mean sleep_total in the sampled population of animal types differs from the typical value for jabberwockies.
+```{r}
+msleep %>% 
+  summarise(mean(sleep_total))
+```
+
+```{r}
+omni <- msleep %>% 
+  filter(vore == "omni")
+omni
+
+herbi <- msleep %>% 
+  filter(vore == "herbi")
+herbi
+
+mean(herbi$sleep_total)
+mean(omni$sleep_total)
+```
+
+```{r}
+msleep %>%
+  ggplot(aes(x = vore, y = sleep_total)) +
+  geom_boxplot()
+```
+Perform an appropriate statistical test to determine whether the proportion of domesticated animal types in the population of animal types is greater than 5%.
+[Hint - think about creating an is_domesticated variable for the analysis]
+```{r}
+domesticated <- msleep %>% 
+  filter(conservation == "domesticated") %>% 
+  mutate(is_domesticated = "domesticated")
+domesticated
+```
+
+```{r}
+msleep %>% 
+  mutate(is_domesticated = ifelse(conservation == "domesticated", "TRUE", "FALSE")) %>% 
+  group_by(is_domesticated) %>% 
+  summarise(n = n())
+```
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+specify() #specify the the variables of interest 
+hypothesize() # state the null hypothesis  
+generate() # what method will use to generate null hypotheses  
+calculate() #statistic of interest
+
+
+Ha:μ0>40%
+
+
+```{r}
+
+```
+
+
+
+For the 3 business problems stated above, imagine we performed you got the following p-values (with the given significance levels) write out your interpretation of the results.
+
+Coffee shop problem. Significance level: 0.05, calculated p-value: 0.07
+
+Website company problem. Significance level: 0.01, p-value: 0.006
+
+Manufacturing company problem. Significance level: 0.05, p-value: 0.55
+
+
+
+
+

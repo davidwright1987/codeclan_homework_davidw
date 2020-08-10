@@ -19,40 +19,43 @@ glimpse(ames)
 names(ames)
 ```
 ```{r}
-clean_names(ames)
+ames <- clean_names(ames)
 ```
 
 
 Investigate the distribution of lot_area. Is the distribution roughly normal? If not, what problems do you find?
 ```{r}
 ames %>% 
-  ggplot(aes(x = Lot.Area)) + 
-  geom_histogram(aes(..count..),col = "white") +
-  stat_function(
-    fun = dnorm, 
-    args = list(
-      mean = Lot.Area$mean,
-      sd = Lot.Area$sd
-    ),
-    col = "red"
-  )
+  ggplot(aes(x = lot_area)) + 
+  geom_histogram(col = "white", bins = 30) 
+
 ```
+
+```{r}
+ames %>%
+  ggplot(aes(x = lot_area)) +
+  geom_boxplot()
+```
+
 
 Compute and visualise a bootstrap sampling distribution for the mean(lot_area) of the sold houses.
 ```{r}
 bootstrap_resample <- ames %>% 
   rep_sample_n(size = 200, replace = TRUE, reps = 5000) %>% 
   summarise(
-    mean_lot_area = mean(Lot.Area)
+    mean_lot_area = mean(lot_area)
   )
 ```
 
 ```{r}
 infer_ames <- ames %>% 
-  specify(response = Lot.Area) %>% 
-  generate(reps = 5000, type = "bootstrap") %>% 
+  specify(response = lot_area) %>% 
+  generate(reps = 10000, type = "bootstrap") %>% 
   calculate(stat = "mean")
 infer_ames
+
+infer_ames %>% 
+  visualise(bins = 30)
 ```
 
 Use your bootstrap distribution to calculate a 95% CI for mean(lot_area), and visualise it on the distribution
