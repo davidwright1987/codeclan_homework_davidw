@@ -1,0 +1,52 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(modelr)
+library(broom)
+library(ggfortify)
+```
+
+```{r}
+project <- read_csv("data/project_management.csv")
+```
+```{r}
+view(project)
+```
+
+```{r}
+lm(estimated_length ~ actual_length, data = project)
+```
+
+```{r}
+fitted(project)
+```
+
+NO IDEA
+```{r}
+project %>% 
+  ggplot() +
+  aes(x = X1, y = actual_length)+
+  geom_text(aes(label = l:nrow(project))) + 
+  geom_point()
+```
+
+
+
+```{r}
+project %>% 
+  ggplot(aes(x = X1)) +
+  geom_point(aes(y = actual_length)) +
+  geom_line(aes(y = estimated_length), col = "red")
+```
+Outlier X1 = 5, 18, 24, & 39
+
+```{r}
+
+```
+
+

@@ -46,15 +46,25 @@ The data indicates that the growth of hires correlates to the summer months and 
 Q3
 Now Summarise the number of bike hire counts by date. Make a plot of this new aggregated data. What does this plot tell you about the time series? Would this data be preferrable for time series forecasting compared to the monthly data?
 ```{r}
-nyc_bike_summary %>% 
-  index(~start_month) %>% 
+nyc_bike_summary_by_date <- nyc_bikes %>% 
+  index_by(start_date) %>% 
+  summarise(hire_count = n())
+
+nyc_bike_summary_by_date
+
+plot(nyc_bike_summary_by_date)
+
+nyc_bike_summary_by_date %>% 
   ggplot() +
   aes(x = start_date, y = hire_count) +
   geom_line()
 ```
 
 Q4
+create a new tibble which uses the fill_gaps() function to fill in missing values. You haven’t come across this in class, but you should be able to look it up and use it using the help. Think about what value you might want to fill the missing values with. Justify your choice.
+Hint: think back to our missing values lesson. Do you want to leave them blank? Or do you want to impute each day with the median, last observation carried forward, etc.
 
+Once you’ve done that, build your models.
 
 ```{r}
 nyc_bikes_filled <- nyc_bike_summary %>%
@@ -62,6 +72,7 @@ nyc_bikes_filled <- nyc_bike_summary %>%
 
 model_fit <- nyc_bikes_filled %>% 
   model(
+    naive_model = NAIVE(hire_count),
     snaive_model = SNAIVE(hire_count),
     mean_model = MEAN(hire_count),
     arima_model = ARIMA(hire_count)
@@ -80,7 +91,23 @@ out_forecast
 
 ```{r}
 out_forecast %>% 
-  autoplot(nyc_bike_summary, level = NULL)
+  autoplot(nyc_bikes_filled, level = NULL)
+```
+```{r}
+
+```
+
+
+Q6
+Test your model accuracy : choose a training data set from your main dataset, build a forecast on the training set, and then plot the training set forecast against the real data. Calculate model accuracy.
+
+```{r}
+
+train <- nyc_bikes_filled %>% 
+  mutate(month = month(start_date)) %>% 
+  filter
+  
+
 ```
 
 
@@ -89,13 +116,48 @@ out_forecast %>%
 
 
 
+Q7
+Look at your forecast plots and accuracy values. Describe your results. Are your models a good fit for the data? If not, why not? What would you suggest doing with the data if you were expected to present these back to a client? For example, would you ask for more data? Would you test a different model?
+
+(If my data is right) I would suggest that the original data set has too many large. There's large seasonal fluctuations and therefore the modeling would require richer data sets to establish any potential trends.
 
 
 
+Q8
+Make a simple ggplot (geom_point) which plots the start longitude and latitudes of each bike. Create a separate facet for each bike_id. Colour the dots in by month of use. What does this tell you about what month each bike was used most in?
+
+Do the same for the end longitude and latitudes.
+```{r}
+leaflet(nyc_bikes) %>% 
+  addTiles() %>% 
+  addCircleMarkers(lng = ~start_long, lat = ~start_lat, radius = ~bike_id/10, weight = 10)
+```
 
 
+Q9
+Create an interactive leaflet plot which plots the start points of the city bikes. Ensure it has at least markers to denote start points (taken from the nyc_bikes_spatial data). Feel free to add any additional features you wish.
 
+```{r}
+library(leaflet)
 
+nyc_bikes_leaf <- nyc_bikes %>% 
+  mutate_at(vars(bike_id, start_lat, start_long), as.numeric)
+```
+
+```{r}
+leaflet(nyc_bikes_leaf) %>% 
+  addTiles() %>% 
+  addCircleMarkers(lng = ~start_long, lat = ~start_lat, clusterOptions = markerClusterOptions())
+```
+
+Q10
+This is VERY much an extension task, and will take a bit of time (as well as googling) if you decide to attempt it.
+
+Adapt your leaflet plot which adds lines showing the start and end point of each bike.
+
+```{r}
+
+```
 
 
 
