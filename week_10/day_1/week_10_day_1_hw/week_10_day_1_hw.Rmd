@@ -23,8 +23,85 @@ lm(estimated_length ~ actual_length, data = project)
 ```
 
 ```{r}
+plot <- project %>% 
+  ggplot(aes(x = estimated_length, y = actual_length)) +
+  geom_point()
+plot
+```
+ 
+```{r}
+plot <- plot +
+  geom_text(aes(label = 1:nrow(project)), nudge_x = 0.2, nudge_y = 1)
+plot
+```
+```{r}
+model <- lm(actual_length ~ estimated_length, data = project)
+model
+```
+ 
+
+```{r}
 fitted(project)
 ```
+
+```{r}
+autoplot(model, which = 4)
+```
+
+```{r}
+plot(model)
+```
+
+```{r}
+omit_18 <- project %>%
+  slice(-18)
+
+omit_18_model <- lm(actual_length ~ estimated_length, data = omit_18)
+omit_18_model
+```
+
+```{r}
+project <- project %>%
+  add_predictions(model, var = "full_model_pred") %>%
+  add_predictions(omit_18_model, var = "omit_18_model_pred")
+
+project %>%
+  ggplot(aes(x = estimated_length)) +
+  geom_point(aes(y = actual_length)) +
+  geom_line(aes(y = full_model_pred), col = "red") +
+  geom_line(aes(y = omit_18_model_pred), col = "blue")
+```
+
+```{r}
+omit_5 <- project %>%
+  slice(-5)
+
+omit_5_model <- lm(actual_length ~ estimated_length, data = omit_5)
+omit_5_model
+```
+
+```{r}
+project <- project %>%
+  add_predictions(omit_5_model, var = "omit_5_model_pred")
+
+project %>%
+  ggplot(aes(x = estimated_length)) +
+  geom_point(aes(y = actual_length)) +
+  geom_line(aes(y = full_model_pred), col = "red") +
+  geom_line(aes(y = omit_5_model_pred), col = "blue")
+```
+
+```{r}
+autoplot(model)
+```
+
+
+
+
+
+
+
+
 
 NO IDEA
 ```{r}
@@ -35,6 +112,11 @@ project %>%
   geom_point()
 ```
 
+```{r}
+project %>% 
+  ggplot(aes(x = estaimted_length, y = actual_length)) +
+  geom_point()
+```
 
 
 ```{r}
@@ -46,7 +128,10 @@ project %>%
 Outlier X1 = 5, 18, 24, & 39
 
 ```{r}
-
+plot(project)
 ```
 
+```{r}
+autoplot(project, which = 4)
+```
 
