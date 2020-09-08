@@ -1,0 +1,60 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(cluster)
+library(factoextra)
+library(dendextend)
+```
+
+```{r}
+computers <- read_csv("data/computers.csv")
+glimpse(computers)
+view(computers)
+
+```
+
+```{r}
+summary(computers)
+```
+
+
+```{r}
+clean_computers <- computers %>% 
+  select(hd, ram) %>% 
+  mutate_all(scale) %>% 
+  dist(method = "euclidean")
+clean_computers
+```
+
+
+```{r}
+fviz_dist(clean_computers, gradient = list(low = "blue", high = "purple"))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

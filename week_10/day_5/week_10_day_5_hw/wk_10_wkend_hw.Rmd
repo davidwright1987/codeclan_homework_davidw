@@ -3,3 +3,112 @@ title: "R Notebook"
 output: html_notebook
 ---
 
+```{r}
+library(tidyverse)
+
+```
+
+```{r}
+region <- read_csv("data/avocado.csv")
+```
+
+```{r}
+head(region)
+glimpse(region)
+view(region)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. I want to predict how well 6 year-olds are going to do in their final school exams. Using the following variables am I likely under-fitting, fitting well or over-fitting? Postcode, gender, reading level, score in maths test, date of birth, family income.
+
+#Overfitting/fitting well
+
+
+2. If I have two models, one with an AIC score of 34,902 and the other with an AIC score of 33,559 which model should I use?
+
+# 33,559
+
+3. I have two models, the first with: r-squared: 0.44, adjusted r-squared: 0.43. The second with: r-squared: 0.47, adjusted r-squared: 0.41. Which one should I use?
+
+# r-squared: 0.44, adjusted r-squared: 0.43
+ 
+4. I have a model with the following errors: RMSE error on test set: 10.3, RMSE error on training data: 10.4. Do you think this model is over-fitting?
+
+
+
+5. How does k-fold validation work?
+
+#K-fold validation is when you use the entire data set rather than a small test data set to train the model on. The numbder of folds can vary, but you test on one fold and train on the remaining number. 
+
+6. What is a validation set? When do you need one?
+
+#This is a set of data used neither in training or to compare models against each other. It should give you a final estimate of the expected performance of the model. It should be used only once you are finished selecting the model.
+
+7. Describe how backwards selection works.
+
+#Backward stepwise selection
+Start with the model containing all possible predictors (the so-called ‘full’ model)
+At each step, check all predictors in the model, and find the one that lowers r2 the least when it is removed
+Remove this predictor from the model
+Keep note of the number of predictors in the model and the current model formula
+Go on to remove another predictor, or stop if all predictors in the model have been removed
+
+8. Describe how best subset selection works.
+
+#At each size of model, search all possible combinations of predictors for the best model (i.e. the model with highest r2) of that size.
+
+#The effort of this algorithm increases exponentially with the number of predictors
+
+
+9. It is estimated on 5% of model projects end up being deployed. What actions can you take to maximise the likelihood of your model being deployed?
+
+#Full model process needs carefully documented, forming part of the model governance documnetation
+As a minimum the following should be recorded:
+
+The business context of the model
+Model design decisions and rationale including choice of algorithm, build population and target variable.
+Modelling decisions including a full audit trail of variable choices, including any exclusions.
+Final model explainability
+Model validation on a recent dataset
+Implementation instructions including any restrictions
+
+10. What metric could you use to confirm that the recent population is similar to the development population?
+
+
+
+11. How is the Population Stability Index defined? What does this mean in words?
+
+#Population Stability Index (PSI) compares the distribution of a scoring variable (predicted probability) in scoring data set to a training data set that was used to develop the model. The idea is to check “How the current scoring is compared to the predicted probability from training data set”.
+
+12. Above what PSI value might we need to start to consider rebuilding or recalibrating the model
+
+#PSI >0.2
+
+13. What are the common errors that can crop up when implementing a model?
+
+14. After performance monitoring, if we find that the discrimination is still satisfactory but the accuracy has deteriorated, what is the recommended action?
+
+#the root cause needs to be investigated before initiating any new model build project.
+
+15. Why is it important to have a unique model identifier for each model?
+
+#
+
+16. Why is it important to document the modelling rationale and approach?
+
+
+#
