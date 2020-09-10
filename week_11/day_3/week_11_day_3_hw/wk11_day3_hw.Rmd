@@ -64,7 +64,7 @@ titanic_train %>%
 ```
 
 ```{r}
-titanic_fit <- rpart(survived ~ .,
+titanic_fit <- rpart(survived ~ . ,
                      data = titanic_train,
                      method = "class")
   
