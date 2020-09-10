@@ -25,10 +25,112 @@ summary(computers)
 ```{r}
 clean_computers <- computers %>% 
   select(hd, ram) %>% 
-  mutate_all(scale) %>% 
-  dist(method = "euclidean")
+  mutate_all(scale)
 clean_computers
 ```
+#From initial perspective it does seem like a suitable dataset for clustering
+
+
+```{r}
+ggplot(clean_computers, aes(hd, ram)) +
+  geom_point()
+```
+# However here we can see that the data is more naturally clustered?
+
+```{r}
+max_k <- 20
+
+computer_clusters <- tibble(k = 1:max_k) %>% 
+  mutate(
+    kclust = map(k, ~ kmeans(clean_computers, .x, nstart = 25)),
+    tidied = map(kclust, tidy),
+    glanced = map(kclust, glance),
+    augmented = map(kclust, augment, )
+  )
+k_clusters
+```
+
+
+
+```{r}
+fviz_nbclust(clean_computers, kmeans, method = "wss", nstart = 25)
+```
+
+```{r}
+fviz_nbclust(clean_computers, kmeans, method = "silhouette", nstart = 25)
+```
+# looks like k value should be 2
+
+```{r}
+clustered_computers <- kmeans(clean_computers, centers = 6, nstart = 25)
+clustered_computers
+```
+
+
+```{r}
+library(broom)
+
+tidy(clustered_computers,
+     col.names = colnames(clean_computers))
+```
+
+```{r}
+augment(clustered_computers, clean_computers)
+```
+
+```{r}
+library(animation)
+clean_computers %>% 
+  kmeans.ani(centers = 2)
+```
+
+```{r}
+glance(clustered_computers)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+clean_computers %>% 
+  unnest() %>% 
+  filter(k <= 6) %>% 
+  ggplot(aes(x = hd, y = ram)) +
+  geom_point(aes(colour = .cluster)) +
+  facet_wrap(~k)
+```
+
+
+
+ROUGH WORK
+
+```{r}
+clean_computers %>% 
+ggplot(aes(x = hd, y = ram)) +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(breaks = seq(1, 20,by = 1))
+```
+
+
 
 
 ```{r}

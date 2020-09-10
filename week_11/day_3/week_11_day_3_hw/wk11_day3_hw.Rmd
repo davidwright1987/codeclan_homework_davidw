@@ -1,0 +1,87 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(rpart)
+library(rpart.plot)
+library(dplyr)
+library(tidyverse)
+```
+
+```{r}
+library(tidyverse)
+titanic_set <- read_csv('data/titanic_decision_tree_data.csv')
+
+shuffle_index <- sample(1:nrow(titanic_set))
+
+# shuffle the data so class order isn't in order - need this for training/testing split later on 
+titanic_set <- titanic_set[shuffle_index, ]
+```
+
+```{r}
+
+titanic_clean <- titanic_set %>%
+  filter(survived %in% c(0,1)) %>%
+    mutate(sex = as.factor(sex), 
+           age_status = as.factor(if_else(age <= 16, "child", "adult")),
+         class = factor(pclass, levels = c(3,2,1), labels = c("Lower", "Middle", "Upper")), 
+           survived_flag = factor(survived, levels = c(0,1), labels = c("No", "Yes")), 
+           port_embarkation = as.factor(embarked)) %>%
+   select(-c(X1, passenger_id, name, ticket, fare, cabin)) %>% 
+  na.omit()
+
+```
+
+
+```{r}
+summary(titanic_clean)
+```
+
+
+
+
+Q3
+```{r}
+n_data <- nrow(titanic_clean)
+
+test_index <- sample(1:n_data, size = n_data*0.2)
+
+titanic_test <- slice(titanic_clean, test_index)
+
+titanic_train <- slice(titanic_clean, -test_index)
+```
+
+```{r}
+titanic_test %>% 
+  janitor::tabyl(survived)
+```
+
+```{r}
+titanic_train %>% 
+  janitor::tabyl(survived)
+```
+
+```{r}
+titanic_fit <- rpart(survived ~ .,
+                     data = titanic_train,
+                     method = "class")
+  
+
+rpart.plot(titanic_fit, yesno = 2)
+```
+```{r}
+rpart.rules(titanic_fit, cover = T)
+```
+
+
+
+
+
+
+
+
+
+
+
