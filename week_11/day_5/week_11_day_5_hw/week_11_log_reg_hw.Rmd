@@ -1,0 +1,192 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(broom)
+library(janitor)
+library(modelr)
+library(ggplot2)
+library(GGally)
+```
+
+```{r}
+juice <- read_csv("log_reg_data/orange_juice.csv") %>% 
+  clean_names() %>% 
+  mutate_if(is_character, as_factor)
+
+
+
+summary(juice)
+head(juice)
+nrow(juice)
+
+names(juice)
+```
+
+```{r}
+split1 <- juice %>% 
+  select(weekof_purchase, store_id, store, store7, list_price_diff, purchase)
+
+split2 <- juice %>% 
+  select(price_ch, price_mm, disc_ch, disc_mm, special_ch, special_mm, sale_price_mm, sale_price_ch, price_diff, purchase)
+
+
+
+ggpairs(split2)
+```
+
+```{r}
+ggpairs(split1)
+```
+
+
+```{r}
+ggsave(juice, width = 10, height = 10, units = "in", device = "pdf")
+```
+
+```{r}
+model1 <- lm(purchase ~ store7, data = juice)
+model1
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+Text Mining
+
+```{r}
+library(tidytext)
+library(tidyverse)
+library(janeaustenr)
+```
+1. Find the most common words in both Pride & Prejudice and Sense & Sensibility.
+```{r}
+
+str(prideprejudice)
+str(sensesensibility)
+pandp <- tibble(text = prideprejudice,
+  sentence_no = 1:length(prideprejudice)) %>% 
+  unnest_tokens(word, text)
+
+sands <- tibble(text = sensesensibility,
+  sentence_no = 1:length(sensesensibility)) %>% 
+  unnest_tokens(word, text)
+```
+# Most popular words with Pride and Prejudice
+```{r}
+pandp %>% 
+  count(word, sort = T) #without stop words
+
+pandp %>% 
+  count(word, sort = T) %>% 
+  anti_join(stop_words) #with stop words
+```
+2. Find the most common words in both Pride & Prejudice and Sense & Sensibility, not including stop words.
+
+Most popular words in Sense and Sensibility
+```{r}
+sands %>% 
+  count(word, sort = T) #without stop words
+
+sands %>% 
+  count(word, sort = T) %>% 
+  anti_join(stop_words) #with stop words
+```
+
+together ?
+```{r}
+count(sands, word, sort = T) %>% 
+  count(pandp, word, sort = T) %>% 
+  anti_join(stop_words)
+```
+
+Find the most common sentiment words in both Pride & Prejudice and Sense & Sensibility.
+
+```{r}
+#Pride & prejudice
+pandp_sentiments <-
+pandp %>% 
+  inner_join(get_sentiments("afinn"))
+pandp_sentiments
+
+#Sense and Sensibility
+sands_sentiments <- 
+sands %>% 
+  inner_join(get_sentiments("afinn"))
+sands_sentiments
+```
+
+```{r}
+#Pride and prejudice
+pandp_sentence_sentiments <- pandp_sentiments %>% 
+  group_by(sentence_no) %>% 
+  summarise(avg_sentiment = mean(value))
+pandp_sentence_sentiments
+
+#Sense and Sensesibility
+sands_sentence_sentiments <- sands_sentiments %>% 
+  group_by(sentence_no) %>% 
+  summarise(avg_sentiment = mean(value))
+sands_sentence_sentiments
+```
+
+```{r}
+library(ggplot2)
+
+#Pride and Prejudice
+ggplot(pandp_sentence_sentiments) +
+  aes(x = sentence_no, y = avg_sentiment) +
+  geom_smooth()
+#Sense and Sensibility
+ggplot(sands_sentence_sentiments) +
+  aes(sentence_no, y = avg_sentiment) +
+  geom_smooth()
+```
+
+Extension
+Taking your results above. Can you create a plot which visualises the differences between the books?
+
+```{r}
+plot_both <- rbind(pandp_sentence_sentiments, sands_sentence_sentiments)
+```
+
+```{r}
+ggplot(plot_both) +
+  aes(sentence_no, avg_sentiment) +
+  geom_smooth()
+
+ggplot(sands_sentence_sentiments) +
+  aes(sentence_no, y = avg_sentiment) +
+  geom_smooth()
+```
+
+```{r}
+ggplot(pandp_sentence_sentiments) +
+  aes(x = sentence_no, y = avg_sentiment) +
+  geom_smooth(colour = "red")
+
+ggplot(sands_sentence_sentiments) +
+  aes(sentence_no, y = avg_sentiment) +
+  geom_smooth(colour = "blue")
+```
+
+
+
+
+
